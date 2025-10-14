@@ -1,2 +1,5 @@
 // Export pages
-export '/login_page/login_page_widget.dart' show LoginPageWidget;
+export '/login_real/login_real_widget.dart' show LoginRealWidget;
+export '/otp/otp_widget.dart' show OtpWidget;
+export '/dummylandingpage/dummylandingpage_widget.dart'
+    show DummylandingpageWidget;
