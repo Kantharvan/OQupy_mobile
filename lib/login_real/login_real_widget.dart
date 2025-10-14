@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'login_real_model.dart';
 export 'login_real_model.dart';
 
@@ -426,7 +425,10 @@ class _LoginRealWidgetState extends State<LoginRealWidget> {
                                       print('Button pressed ...');
                                     },
                                     text: 'Continue with Google',
-                                    iconData: FontAwesomeIcons.google,
+                                    icon: Icon(
+                                      Icons.google,
+                                      size: 20.0,
+                                    ),
                                     options: FFButtonOptions(
                                       width: double.infinity,
                                       height: 52.0,

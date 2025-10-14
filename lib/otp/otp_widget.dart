@@ -86,7 +86,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                     child: Text(
                       'Enter the code sent to your phone',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.sen(
                         color: Color(0xFFE0E0E0),
                         fontWeight: FontWeight.normal,
                         fontSize: 16.0,
@@ -99,7 +99,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                     child: Text(
                       '+91 ••••••1234',
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.roboto(
                         color: Color(0xFF888888),
                         fontWeight: FontWeight.w500,
                         fontSize: 14.0,
@@ -160,7 +160,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                                         child: Text(
                                           'Verify OTP',
                                           textAlign: TextAlign.center,
-                                          style: GoogleFonts.inter(
+                                          style: GoogleFonts.roboto(
                                             color: Color(0xFFB0B0B0),
                                             fontWeight: FontWeight.w500,
                                             fontSize: 15.0,
@@ -242,7 +242,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                                         child: Text(
                                           'Enter the 6-digit code we sent you.',
                                           textAlign: TextAlign.center,
-                                          style: GoogleFonts.inter(
+                                          style: GoogleFonts.roboto(
                                             color: Color(0xFF777777),
                                             fontWeight: FontWeight.normal,
                                             fontSize: 13.0,
@@ -310,7 +310,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                                   children: [
                                     Text(
                                       'Didn\'t receive the code?',
-                                      style: GoogleFonts.inter(
+                                      style: GoogleFonts.roboto(
                                         color: Color(0xFFAAAAAA),
                                         fontWeight: FontWeight.normal,
                                         fontSize: 13.0,
@@ -318,7 +318,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                                     ),
                                     Text(
                                       'Resend OTP',
-                                      style: GoogleFonts.inter(
+                                      style: GoogleFonts.roboto(
                                         color: Color(0xFFFF6B00),
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13.0,
@@ -329,7 +329,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                                 Text(
                                   'Resend available in 30s',
                                   textAlign: TextAlign.center,
-                                  style: GoogleFonts.inter(
+                                  style: GoogleFonts.roboto(
                                     color: Color(0xFF777777),
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13.0,
@@ -340,7 +340,7 @@ class _OtpWidgetState extends State<OtpWidget> {
                             Text(
                               '← Back to Login',
                               textAlign: TextAlign.center,
-                              style: GoogleFonts.inter(
+                              style: GoogleFonts.roboto(
                                 color: Color(0xFFFF6B00),
                                 fontWeight: FontWeight.normal,
                                 fontSize: 14.0,

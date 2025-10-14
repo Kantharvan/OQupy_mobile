@@ -24,7 +24,11 @@ class OqupyFirebaseUser extends BaseAuthUser {
 
   @override
   Future? updateEmail(String email) async {
-    await user?.verifyBeforeUpdateEmail(email);
+    try {
+      await user?.updateEmail(email);
+    } catch (_) {
+      await user?.verifyBeforeUpdateEmail(email);
+    }
   }
 
   @override
