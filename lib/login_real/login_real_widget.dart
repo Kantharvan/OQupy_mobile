@@ -52,414 +52,205 @@ class _LoginRealWidgetState extends State<LoginRealWidget> {
         key: scaffoldKey,
         backgroundColor: Colors.black,
         body: SafeArea(
-          top: true,
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.black,
-            ),
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Stack(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Opacity(
-                    opacity: 0.1,
-                    child: Align(
-                      alignment: AlignmentDirectional(0.0, -0.3),
-                      child: Container(
-                        width: 600.0,
-                        height: 600.0,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0x1AFF6B00), Color(0x00FF6B00)],
-                            stops: [0.0, 1.0],
-                            begin: AlignmentDirectional(0.0, -1.0),
-                            end: AlignmentDirectional(0, 1.0),
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                      ),
+                  // Title
+                  Text(
+                    'OQUPY',
+                    style: GoogleFonts.poppins(
+                      color: const Color(0xFFFF6B00),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 40,
+                      letterSpacing: 2,
                     ),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(20.0, 100.0, 20.0, 40.0),
+                  const SizedBox(height: 8),
+                  Text(
+                    'The floor is yours.',
+                    style: GoogleFonts.inter(
+                      color: const Color(0xFFE0E0E0),
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+
+                  // Card container
+                  Container(
+                    width: double.infinity,
+                    constraints: const BoxConstraints(maxWidth: 420),
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF111111),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        Text(
+                          'Sign in to continue',
+                          style: GoogleFonts.inter(
+                            color: const Color(0xFFB0B0B0),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Phone input row
+                        Row(
                           children: [
                             Container(
+                              width: 70,
+                              height: 52,
+                              alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 20.0,
-                                    color: Color(0x40FF6B00),
-                                    offset: Offset(
-                                      0.0,
-                                      0.0,
-                                    ),
-                                  )
-                                ],
+                                color: const Color(0xFF222222),
+                                borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
-                                'OQUPY',
-                                style: GoogleFonts.poppins(
-                                  color: Color(0xFFFF6B00),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 40.0,
+                                '+91',
+                                style: GoogleFonts.inter(
+                                  color: Colors.white,
+                                  fontSize: 15,
                                 ),
                               ),
                             ),
-                            Text(
-                              'The floor is yours.',
-                              style: GoogleFonts.inter(
-                                color: Color(0xFFE0E0E0),
-                                fontSize: 16.0,
-                                height: 1.5,
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: TextFormField(
+                                controller:
+                                    _model.phoneNumberInputTextController,
+                                focusNode: _model.phoneNumberInputFocusNode,
+                                decoration: InputDecoration(
+                                  hintText: 'Enter your phone number',
+                                  hintStyle: GoogleFonts.inter(
+                                    color: const Color(0xFF888888),
+                                  ),
+                                  filled: true,
+                                  fillColor: const Color(0xFF1C1C1C),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFF222222),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xFFFF6B00),
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 16,
+                                  ),
+                                ),
+                                style: GoogleFonts.inter(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                ),
+                                keyboardType: TextInputType.phone,
+                                cursorColor: const Color(0xFFFF6B00),
                               ),
                             ),
-                          ].divide(SizedBox(height: 10.0)),
+                          ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(32.0),
-                          child: Container(
-                            width: MediaQuery.sizeOf(context).width * 0.9,
-                            constraints: BoxConstraints(
-                              maxWidth: 420.0,
+                        const SizedBox(height: 20),
+
+                        // Send OTP button
+                        FFButtonWidget(
+                          onPressed: () async {
+                            final phoneNumberVal =
+                                _model.phoneNumberInputTextController.text;
+                            if (phoneNumberVal.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Phone number required')),
+                              );
+                              return;
+                            }
+                            await authManager.beginPhoneAuth(
+                              context: context,
+                              phoneNumber: '+91$phoneNumberVal',
+                              onCodeSent: (context) async {
+                                context.goNamedAuth(
+                                  OtpWidget.routeName,
+                                  context.mounted,
+                                  ignoreRedirect: true,
+                                );
+                              },
+                            );
+                          },
+                          text: 'Send OTP',
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 52,
+                            color: const Color(0xFFFF6B00),
+                            textStyle: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
                             ),
-                            decoration: BoxDecoration(
-                              color: Color(0xFF111111),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 24.0,
-                                  color: Color(0x1AFF6B00),
-                                  offset: Offset(
-                                    0.0,
-                                    8.0,
-                                  ),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(28.0),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        20.0, 0.0, 20.0, 0.0),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Color(0xFF1A1A1A),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 10.0,
-                                            color: Color(0x0DFF6B00),
-                                            offset: Offset(
-                                              0.0,
-                                              4.0,
-                                            ),
-                                          )
-                                        ],
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsets.all(16.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Text(
-                                              'Sign in to continue',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.inter(
-                                                color: Color(0xFFB0B0B0),
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 15.0,
-                                              ),
-                                            ),
-                                            Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Container(
-                                                      width: 70.0,
-                                                      height: 52.0,
-                                                      decoration: BoxDecoration(
-                                                        color:
-                                                            Color(0xFF222222),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12.0),
-                                                      ),
-                                                      child: Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  8.0),
-                                                          child: Text(
-                                                            '+91',
-                                                            style: GoogleFonts
-                                                                .inter(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 15.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                        controller: _model
-                                                            .phoneNumberInputTextController,
-                                                        focusNode: _model
-                                                            .phoneNumberInputFocusNode,
-                                                        autofocus: false,
-                                                        obscureText: false,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          hintText:
-                                                              'Enter your phone number',
-                                                          hintStyle:
-                                                              GoogleFonts.inter(
-                                                            color: Color(
-                                                                0xFF888888),
-                                                            fontSize: 15.0,
-                                                          ),
-                                                          enabledBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFF222222),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12.0),
-                                                          ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFFF6B00),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12.0),
-                                                          ),
-                                                          errorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0x00000000),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12.0),
-                                                          ),
-                                                          focusedErrorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0x00000000),
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12.0),
-                                                          ),
-                                                          filled: true,
-                                                          fillColor:
-                                                              Color(0xFF1C1C1C),
-                                                          contentPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      16.0,
-                                                                      16.0,
-                                                                      16.0),
-                                                        ),
-                                                        style:
-                                                            GoogleFonts.inter(
-                                                          color: Colors.white,
-                                                          fontSize: 15.0,
-                                                        ),
-                                                        keyboardType:
-                                                            TextInputType.phone,
-                                                        cursorColor:
-                                                            Color(0xFFFF6B00),
-                                                        validator: _model
-                                                            .phoneNumberInputTextControllerValidator
-                                                            .asValidator(
-                                                                context),
-                                                      ),
-                                                    ),
-                                                  ].divide(
-                                                      SizedBox(width: 0.0)),
-                                                ),
-                                              ].divide(SizedBox(height: 4.0)),
-                                            ),
-                                            FFButtonWidget(
-                                              onPressed: () async {
-                                                final phoneNumberVal = _model
-                                                    .phoneNumberInputTextController
-                                                    .text;
-                                                if (phoneNumberVal.isEmpty ||
-                                                    !phoneNumberVal
-                                                        .startsWith('+')) {
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(
-                                                    SnackBar(
-                                                      content: Text(
-                                                          'Phone Number is required and has to start with +.'),
-                                                    ),
-                                                  );
-                                                  return;
-                                                }
-                                                await authManager
-                                                    .beginPhoneAuth(
-                                                  context: context,
-                                                  phoneNumber: phoneNumberVal,
-                                                  onCodeSent: (context) async {
-                                                    context.goNamedAuth(
-                                                      OtpWidget.routeName,
-                                                      context.mounted,
-                                                      ignoreRedirect: true,
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              text: 'Send OTP',
-                                              options: FFButtonOptions(
-                                                width: double.infinity,
-                                                height: 52.0,
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        24.0, 0.0, 24.0, 0.0),
-                                                iconPadding:
-                                                    EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                            0.0, 0.0, 0.0, 0.0),
-                                                color: Color(0xFFFF6B00),
-                                                textStyle: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 16.0,
-                                                ),
-                                                elevation: 0.0,
-                                                borderSide: BorderSide(
-                                                  color: Colors.transparent,
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(14.0),
-                                              ),
-                                            ),
-                                          ].divide(SizedBox(height: 16.0)),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          height: 1.0,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF222222),
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8.0, 0.0, 8.0, 0.0),
-                                        child: Text(
-                                          'OR',
-                                          style: GoogleFonts.inter(
-                                            color: Color(0xFF777777),
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 13.0,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          height: 1.0,
-                                          decoration: BoxDecoration(
-                                            color: Color(0xFF222222),
-                                          ),
-                                        ),
-                                      ),
-                                    ].divide(SizedBox(width: 8.0)),
-                                  ),
-                                  FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Continue with Google',
-                                    icon: FaIcon(
-                                      FontAwesomeIcons.google,
-                                      size: 20.0,
-                                      color: Color(0xFF4285F4),
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: double.infinity,
-                                      height: 52.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          24.0, 0.0, 24.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      iconColor: Color(0xFF4285F4),
-                                      color: Colors.white,
-                                      textStyle: GoogleFonts.inter(
-                                        color: Color(0xFF333333),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15.0,
-                                      ),
-                                      elevation: 0.0,
-                                      borderSide: BorderSide(
-                                        color: Color(0xFFE0E0E0),
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(14.0),
-                                    ),
-                                  ),
-                                ].divide(SizedBox(height: 20.0)),
-                              ),
-                            ),
+                            borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                      ].divide(SizedBox(height: 40.0)),
+                        const SizedBox(height: 24),
+
+                        // OR divider
+                        Row(
+                          children: [
+                            const Expanded(
+                              child: Divider(color: Color(0xFF222222)),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Text(
+                                'OR',
+                                style: GoogleFonts.inter(
+                                  color: const Color(0xFF777777),
+                                ),
+                              ),
+                            ),
+                            const Expanded(
+                              child: Divider(color: Color(0xFF222222)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+
+                        // Google button
+                        FFButtonWidget(
+                          onPressed: () {
+                            print('Continue with Google pressed');
+                          },
+                          text: 'Continue with Google',
+                          icon: const FaIcon(
+                            FontAwesomeIcons.google,
+                            color: Color(0xFF4285F4),
+                            size: 20,
+                          ),
+                          options: FFButtonOptions(
+                            width: double.infinity,
+                            height: 52,
+                            color: Colors.white,
+                            textStyle: GoogleFonts.inter(
+                              color: const Color(0xFF333333),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFE0E0E0),
+                            ),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
